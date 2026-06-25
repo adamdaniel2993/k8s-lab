@@ -75,7 +75,7 @@ spec:
         - key: karpenter.k8s.aws/instance-category
           operator: In
           values: ["c", "m", "r"]
-        - key: karpenter.k8s.aws/instance-generation   
+        - key: karpenter.k8s.aws/instance-generation
           operator: Gt
           values: ["1"]
       nodeClassRef:

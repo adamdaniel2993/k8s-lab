@@ -24,7 +24,7 @@ resource "aws_security_group" "postgres" {
 resource "aws_vpc_security_group_ingress_rule" "postgres_from_app_sg" {
 
   security_group_id            = aws_security_group.postgres.id
-  referenced_security_group_id = [module.eks.cluster_security_group_id, module.eks.node_security_group_id]
+  referenced_security_group_id = module.eks.cluster_security_group_id
 
   from_port   = 5432
   to_port     = 5432
@@ -66,7 +66,7 @@ resource "aws_db_parameter_group" "postgres" {
 
 resource "aws_db_subnet_group" "postgres" {
   name       = "${var.project_name}-${var.environment}-postgres-subnet-group"
-  subnet_ids = data.aws_subnets.private_subnets
+  subnet_ids = data.aws_subnets.private_subnets.ids
 
   tags = {
     Name        = "${var.project_name}-${var.environment}-postgres-subnet-group"

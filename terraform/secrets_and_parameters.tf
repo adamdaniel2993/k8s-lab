@@ -13,7 +13,7 @@ resource "aws_secretsmanager_secret" "postgres_credentials" {
 resource "aws_secretsmanager_secret_version" "postgres_credentials" {
   secret_id = aws_secretsmanager_secret.postgres_credentials.id
 
-  secret_string = jsonencode({
+  secret_string_wo = jsonencode({
     username             = var.db_username
     password             = ephemeral.random_password.rds_password.result
     engine               = "postgres"

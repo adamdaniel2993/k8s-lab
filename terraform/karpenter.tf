@@ -1,8 +1,8 @@
 module "karpenter" {
-  source = "terraform-aws-modules/eks/aws//modules/karpenter"
-  cluster_name = module.eks.cluster_name
+  source                          = "terraform-aws-modules/eks/aws//modules/karpenter"
+  cluster_name                    = module.eks.cluster_name
   create_pod_identity_association = true
-  namespace = "karpenter"
+  namespace                       = "karpenter"
 
 
   node_iam_role_additional_policies = {
@@ -19,13 +19,13 @@ resource "kubernetes_namespace_v1" "karpenter" {
 }
 
 resource "helm_release" "karpenter" {
-  namespace           = "karpenter"
-  name                = "karpenter"
-  repository          = "oci://public.ecr.aws/karpenter" #we are autenticating from provider, when you use OCI as repo HELM tries to auth by default even if the repo is public, thats why we have the datasource looking for public.ecr credentials
-  chart               = "karpenter"
-  version             = "1.12.0"
-  wait                = false
-  upgrade_install     = true
+  namespace       = "karpenter"
+  name            = "karpenter"
+  repository      = "oci://public.ecr.aws/karpenter" #we are autenticating from provider, when you use OCI as repo HELM tries to auth by default even if the repo is public, thats why we have the datasource looking for public.ecr credentials
+  chart           = "karpenter"
+  version         = "1.12.0"
+  wait            = false
+  upgrade_install = true
 
   values = [
     <<-EOT

@@ -19,6 +19,7 @@ module "eks" {
     eks-pod-identity-agent = {
       before_compute = true
     }
+
     kube-proxy = {}
     vpc-cni = {
       before_compute = true
@@ -26,7 +27,7 @@ module "eks" {
   }
 
   endpoint_public_access       = true
-  endpoint_public_access_cidrs = ["104.28.233.94/32", "104.28.201.93/32", "104.28.201.95/32"]
+  endpoint_public_access_cidrs = ["104.28.201.95/32"]
   # NOTE - if creating multiple security groups with this module, only tag the
   # security group that Karpenter should utilize with the following tag
   # (i.e. - at most, only one security group should have this tag in your account)

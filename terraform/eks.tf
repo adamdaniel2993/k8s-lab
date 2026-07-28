@@ -6,6 +6,7 @@ module "eks" {
 
   addons = {
     coredns = {
+      addon_version = "v1.13.2-eksbuild.11"
       configuration_values = jsonencode({
         #this toleration is for codeDNS because this addon does not have a very open wide toleration (Exist) so I need to specify a toleration System = true so it can run in managed nodes
         tolerations = [{
@@ -17,17 +18,21 @@ module "eks" {
       })
     }
     eks-pod-identity-agent = {
+      addon_version  = "v1.3.10-eksbuild.3"
       before_compute = true
     }
 
-    kube-proxy = {}
+    kube-proxy = {
+      addon_version = "v1.33.10-eksbuild.17"
+    }
     vpc-cni = {
+      addon_version  = "v1.22.4-eksbuild.3"
       before_compute = true
     }
   }
 
   endpoint_public_access       = true
-  endpoint_public_access_cidrs = ["104.28.201.95/32"]
+  endpoint_public_access_cidrs = ["104.28.233.92/32", "186.6.162.52/32"]
   # NOTE - if creating multiple security groups with this module, only tag the
   # security group that Karpenter should utilize with the following tag
   # (i.e. - at most, only one security group should have this tag in your account)

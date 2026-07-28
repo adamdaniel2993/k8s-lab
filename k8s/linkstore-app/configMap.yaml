@@ -1,0 +1,8 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: redis-values
+  namespace: redis
+data:
+  REDIS_HOST: "redis-svc.redis.svc.cluster.local"
+  REDIS_PORT: "6379"

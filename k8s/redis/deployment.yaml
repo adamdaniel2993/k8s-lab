@@ -19,6 +19,7 @@ spec:
         - key: "podtype"
           operator: "Equal"
           value: "workload"
+          effect: "NoSchedule"
       containers:
         - name: redis
           image: redis:7.2-alpine

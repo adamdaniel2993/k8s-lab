@@ -32,6 +32,19 @@ spec:
             - secretRef:
                 name: linkstore-db-secret
 
+          env:
+            - name: REDIS_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: redis-values
+                  key: REDIS_HOST
+
+            - name: REDIS_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: redis-values
+                  key: REDIS_PORT
+
           resources:
             requests:
               cpu: "100m"
@@ -53,3 +66,16 @@ spec:
               port: 8080
             initialDelaySeconds: 5
             periodSeconds: 10
+
+          volumeMounts:
+            - name: db-secrets
+              mountPath: "/mnt/secrets-store"
+              readOnly: true
+
+      volumes:
+        - name: db-secrets
+          csi:
+            driver: secrets-store.csi.k8s.io
+            readOnly: true
+            volumeAttributes:
+              secretProviderClass: "linkstore-db-credentials"

@@ -6,10 +6,15 @@ resource "helm_release" "ascp" {
   version    = "3.1.2"
   values = [
     <<-EOT
-    usePodIdentity: "true"
+    # The provider is a DaemonSet - it must run on every node that can host a pod
+    # mounting a CSI secret, otherwise the mount fails on nodes without it.
     tolerations:
       - key: "podtype"
         value: "workload"
+        operator: "Equal"
+        effect: "NoSchedule"
+      - key: "system"
+        value: "true"
         operator: "Equal"
         effect: "NoSchedule"
 
@@ -19,6 +24,10 @@ resource "helm_release" "ascp" {
       tolerations:
         - key: "podtype"
           value: "workload"
+          operator: "Equal"
+          effect: "NoSchedule"
+        - key: "system"
+          value: "true"
           operator: "Equal"
           effect: "NoSchedule"
     EOT

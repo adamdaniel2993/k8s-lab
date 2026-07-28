@@ -33,6 +33,19 @@ resource "aws_vpc_security_group_ingress_rule" "postgres_from_app_sg" {
   description = "Allow PostgreSQL from app security group"
 }
 
+resource "aws_vpc_security_group_ingress_rule" "karpenter_sg" {
+
+  security_group_id            = aws_security_group.postgres.id
+  referenced_security_group_id = module.eks.node_security_group_id
+
+  from_port   = 5432
+  to_port     = 5432
+  ip_protocol = "tcp"
+
+  description = "Allow PostgreSQL from karpenter nodes"
+}
+
+
 
 resource "aws_vpc_security_group_egress_rule" "all" {
   security_group_id = aws_security_group.postgres.id
